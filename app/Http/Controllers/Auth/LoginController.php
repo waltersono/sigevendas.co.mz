@@ -4,27 +4,58 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Auth;
-use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
+/**
+ * Controller responsible for managing autentication issues
+ * 
+ * @autor Walter Sono
+ * 
+ */
 class LoginController extends Controller
 {
+    /**
+     * Display the login page
+     * 
+     * @return \Illuminate\Http\Response
+     */
     public function index(){
-
+        return view('auth.login');
     }
 
-    public function signIn(Request $request){
-
+    /**
+     * Authenticate the user
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function authenticate(Request $request){
+        
         $this->validate($request,[
             'email' => 'required|email',
             'password'  => 'required'
         ]);
 
-        $user = User::where('email',$request->email)->first();
+        $credentials = array('email' => $request->email, 'password' => $request->password);
 
-        auth()->login($user);
+        if(Auth::attempt($credentials,$request->remember)){
+            return redirect()->route('dashboard');
+        }
 
-        return redirect()->route('home');
+        session()->flash('danger','Email e palavra-passe nao correspondem!');
+
+        return redirect()->route('login');
+    }
+
+
+    /**
+     * Logout the user
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(){
+        Auth::logout();
+        return redirect()->route('login');
     }
     
 }
