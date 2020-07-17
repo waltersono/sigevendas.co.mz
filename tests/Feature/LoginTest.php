@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Tests\Helper;
 
-class EfectuarLoginTest extends TestCase
+class LoginTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;

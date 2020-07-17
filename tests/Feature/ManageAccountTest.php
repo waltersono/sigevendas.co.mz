@@ -8,7 +8,7 @@ use Tests\TestCase;
 use Tests\Helper;
 use App\Models\User;
 
-class GerirContaTest extends TestCase
+class ManageAccount extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;

@@ -8,7 +8,7 @@ use Tests\TestCase;
 use App\Models\User;
 use Tests\Helper;
 
-class EfectuarLogoutTest extends TestCase
+class LogoutTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;

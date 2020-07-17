@@ -54,9 +54,13 @@ body {
   color: #999;
 }
 
-.sidebar .nav-link.active {
+/* .sidebar .nav-link.active {
   color: #007bff;
+} */
+.sidebar .nav-link.active {
+  color: #996600;
 }
+
 
 .sidebar .nav-link:hover .feather,
 .sidebar .nav-link.active .feather {
