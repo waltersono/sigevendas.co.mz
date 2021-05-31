@@ -1,37 +1,31 @@
 @extends('layouts.app')
 @section('title')
-SIGEF | Signin
+Entrar
 @endsection
 @section('styles')
 <link rel="stylesheet" href="{{ asset('src/vendor/signin/signin.css') }}">
 @endsection
 @section('content')
-    <form action="{{ route('authenticate') }}" method="POST" class="form-signin text-center">
-        @include('partials.errors')
-        @include('partials.alerts')
-        <img class="mb-0" src="{{ asset('src/img/inas-logo.png') }}" alt="" width="102" height="72">
-        <h4 class="h4 mb-0 font-weight-normal">Instituto Nacional de Ac&ccedil;&atilde;o Social</h4>
-        <h4 class="h5 mb-0 font-weight-normal">Departamento de Recursos Humanos</h4>
-        <h4 class="h5 mb-4 font-weight-normal">Reparti&ccedil;&atilde;o de Forma&ccedil;&atilde;o</h4>
+<form action="{{ route('authenticate') }}" method="POST" class="form-signin text-center">
+    @include('partials.errors')
+    @include('partials.alerts')
 
+    <h4 class="h5 mb-0 font-weight-bold text-light">SGV</h4>
+    <h4 class="h5 mb-3 font-weight-bold text-light">Sistema Gestao de Vendas</h4>
 
-        <h4 class="h5 mb-0 font-weight-normal">SIGEF</h4>
-        <h4 class="h5 mb-3 font-weight-normal">Sistema de Gest&atilde;o de Forma&ccedil;&otilde;es</h4>
+    <label for="inputEmail" class="sr-only">Email</label>
+    <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" autofocus>
 
-        <label for="inputEmail" class="sr-only">Email</label>
-        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" autofocus>
+    <label for="inputPassword" class="sr-only">Palavra-passe</label>
+    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Palavra-passe">
 
-        <label for="inputPassword" class="sr-only">Palavra-passe</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Palavra-passe">
-
-        <div class="checkbox mb-3 text-left">
-            <label>
-                <input type="checkbox" name="remember" id="remember"> Lembre-se de mim
-            </label>
-        </div>
-
-        <button type="submit" class="btn btn-sm btn-success btn-block" type="submit">Entrar</button>
-        @csrf
-        <p class="mt-5 mb-3 text-muted">&copy; Todos Direitos Resevados 2020 - INAS/DRH/RF - <a href="http://inas.gov.mz" >www.inas.gov.mz</a></p>
-    </form>
+    <button type="submit" class="btn btn-sm btn-success btn-block" type="submit">Entrar</button>
+    @csrf
+    <p class="text-center text-light mt-2 mb-0">
+        Copyright © <?php echo date('yy');?> <strong>SGV</strong>. Todos os Direitos Reservados.
+    </p>
+    <p class="text-center text-light mt-0">
+        Desenvolvido pela <a href="http://www.google.com" target="_blank" class="text-light">SoftTech,Lda</a>.
+    </p>
+</form>
 @endsection

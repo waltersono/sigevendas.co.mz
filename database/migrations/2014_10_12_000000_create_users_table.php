@@ -19,6 +19,9 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('store_id')->nullable();
+            $table->enum('role',['Operator','Manager','Administrator'])->default('Operator');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -34,7 +34,7 @@ class Helper{
     }
 
     public static function helperCheckNull($data){
-        return ($data == "%%" || $data == NULL) ? NULL : $data;
+        return ($data == "*") ? NULL : $data;
     }
 
     public static function sanitizeData($data){
@@ -43,4 +43,19 @@ class Helper{
         $data = htmlspecialchars($data);
         return $data;
     }
+
+    public static function decideIfLike($data)
+    {
+        if (Helper::sanitizeData($data) == NULL)
+            return 'LIKE';
+        return '=';
+
+    }
+
+    public static function decideIfPercent($data){
+        if (Helper::sanitizeData($data) == NULL)
+            return "%{$data}%";
+        return Helper::sanitizeData($data);
+    }
+
 }

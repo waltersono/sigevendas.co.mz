@@ -3,6 +3,6 @@ function handleDelete(title, message, route, id){
     $('.modal-title').html(title);
     $('.modal-body').html(message);
     $('#exampleModal .btn-primary').addClass('btn-danger');
-    var form = document.getElementById('deleteModalForm');
+    var form = document.querySelector('#deleteModalForm');
     form.action = '/' + route + '/' + id;
 }

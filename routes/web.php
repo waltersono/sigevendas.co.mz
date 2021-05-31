@@ -32,23 +32,36 @@ Route::middleware('auth')->group(function(){
         Route::put('password/{user}','Auth\ProfileController@updatePassword')->name('profile.update-password');
     });
 
-    Route::resource('organicUnities','OrganicUnityController');
-    Route::resource('departments','DepartmentController');
-    Route::resource('delegations','DelegationController');
-    Route::resource('repartitions','RepartitionController');
-    Route::resource('careers','CareerController');
-    Route::resource('academicLevels','AcademicLevelController');
-    Route::resource('employees','EmployeeController');
-    Route::resource('institutions','InstitutionController');
-    Route::resource('courses','CourseController');
-    Route::resource('trainings','TrainingController');
-
-    Route::prefix('reports')->group(function(){
-
-        Route::get('index','ReportController@index')->name('reports.index');
-
-        Route::get('download/{report}','ReportController@download')->name('reports.download');
+    Route::middleware('isManager')->group(function(){
+        Route::resource('stores', 'StoreController');
+        Route::resource('categories', 'CategoryController');
+        Route::resource('products', 'ProductController');
+        Route::resource('stocks', 'StockController');
+        Route::resource('receipts', 'ReceiptController');
+        Route::resource('items', 'ItemController');
+        Route::get('receipts', 'ReceiptController@index')->name('receipts.index');
+        Route::get('entrances', 'EntranceLogController@index')->name('entrances.index');
+        Route::post('products/add', 'ProductController@add')->name('products.add');
+        Route::get('items/receipt/{receiptId}','ItemController@index')->name('items.index');
     });
+
+    Route::middleware('isOperator')->group(function () {
+
+        Route::get('sells', 'SellController@index')->name('sells.index');
+
+        Route::post('sells', 'SellController@checkout')->name('sells.checkout');
+
+    });
+
+    Route::group(['middleware' => ['auth', 'web']], function () {
+
+        Route::resource('users', 'UserController');
+        
+    });
+
+
+
+
 });
 
 
