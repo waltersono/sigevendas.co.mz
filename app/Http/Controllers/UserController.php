@@ -16,20 +16,18 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    { 
+    {
         $users = array();
 
-        if(Auth::user()->role == 'Administrator'){
-            
+        if (Auth::user()->role == 'Administrator') {
+
             $users = User::orderBy('role')->get();
+        } else if (Auth::user()->role == 'Manager') {
 
-        } else if(Auth::user()->role == 'Manager') {
+            $users = User::where('user_id', Auth::user()->id)->where('role', 'Operator')->orderBy('name')->get();
+        }
 
-            $users = User::where('user_id', Auth::user()->id)->where('role','Operator')->orderBy('name')->get();
-
-        } 
-        
-        return view('users.index',['users' => $users]);
+        return view('users.index', ['users' => $users]);
     }
 
     /**
@@ -42,8 +40,7 @@ class UserController extends Controller
 
         $stores = Store::where('user_id', Auth::user()->id)->orderBy('designation')->get();
 
-        return view('users.create')->with('stores',$stores);
-
+        return view('users.create')->with('stores', $stores);
     }
 
     /**
@@ -55,21 +52,19 @@ class UserController extends Controller
     public function store(Request $request)
     {
 
-        if(Auth::user()->role == 'Administrator'){
+        if (Auth::user()->role == 'Administrator') {
 
             $this->validate($request, [
                 'name'  =>  'required|min:3',
                 'email' =>  'required|unique:users',
             ]);
-
-        }else{
+        } else {
 
             $this->validate($request, [
                 'name'  =>  'required|min:3',
                 'email' =>  'required|unique:users',
                 'store' =>  'required'
             ]);
-
         }
 
         $user = new User();
@@ -84,14 +79,14 @@ class UserController extends Controller
 
             $user->user_id =  Auth::user()->id;
 
-            $user->role = 'Operator';
+            $user->role = $request->role;
 
             $user->store_id = $request->store;
         }
 
         $user->save();
 
-        session()->flash('success','Usuario criado com sucesso!');
+        session()->flash('success', 'Usuario criado com sucesso!');
 
         return redirect()->route('users.index');
     }
@@ -115,7 +110,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-    
+
         $stores = Store::where('user_id', Auth::user()->id)->orderBy('designation')->get();
 
         return view('users.create', ['user' => User::find($user->id), 'stores' => $stores]);
@@ -156,7 +151,6 @@ class UserController extends Controller
             $user->role = 'Operator';
 
             $user->store_id = $request->store;
-
         }
 
         $user->save();
@@ -174,16 +168,14 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        if(Auth::user()->id == $user->id){
+        if (Auth::user()->id == $user->id) {
 
             session()->flash('danger', 'Usuario autenticado nao pode ser removido!');
-
         } else {
 
             $user->delete();
 
             session()->flash('success', 'Usuario removido com sucesso!');
-
         }
 
         return redirect()->route('users.index');
