@@ -20,7 +20,7 @@ class CreateStoresTable extends Migration
             $table->string('address');
             $table->unsignedBigInteger('contact')->nullable();
             $table->unsignedBigInteger('user_id');
-            $table->date('days');
+            $table->date('days')->nullable();
             $table->timestamps();
         });
     }
