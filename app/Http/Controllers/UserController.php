@@ -73,6 +73,9 @@ class UserController extends Controller
 
         $user->email = $request->email;
 
+
+        $user->role = $request->role;
+
         $user->password = Hash::make('password');
 
         if (Auth::user()->role == 'Manager') {
