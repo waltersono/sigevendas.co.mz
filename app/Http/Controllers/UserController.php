@@ -82,8 +82,6 @@ class UserController extends Controller
 
             $user->user_id =  Auth::user()->id;
 
-            $user->role = $request->role;
-
             $user->store_id = $request->store;
         }
 
