@@ -10,10 +10,10 @@
             <div class="modal-body">
                 <p class="font-weight-bold">Tem certeza que deseja facturar?</p>
                 <input type="text" name="customer_name" id="customer_name" class="form-control form-control-sm" placeholder="Nome do cliente" value="Sem nome" />
-                <!-- <div class="form-check mt-2">
+                <div class="form-check mt-2">
                     <input type="checkbox" class="form-check-input" id="printReceipt" name="printReceipt">
                     <label class="form-check-label" for="printReceipt">Imprimir Recibo</label>
-                </div> -->
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>

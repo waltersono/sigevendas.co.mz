@@ -22,10 +22,10 @@ Entrar
     <button type="submit" class="btn btn-sm btn-success btn-block" type="submit">Entrar</button>
     @csrf
     <p class="text-center text-light mt-2 mb-0">
-        Copyright © <?php echo date('yy'); ?> <strong>SGV</strong>. Todos os Direitos Reservados.
+        Copyright © <?php echo date('Y'); ?> <strong>SGV</strong>. Todos os Direitos Reservados.
     </p>
     <p class="text-center text-light mt-0">
-        Desenvolvido pela <a href="http://www.google.com" target="_blank" class="text-light">SoftTech,Lda</a>.
+        Desenvolvido pela SoftTech,Lda.
     </p>
 </form>
 @endsection

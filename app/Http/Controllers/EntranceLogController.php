@@ -27,7 +27,8 @@ class EntranceLogController extends Controller
      * 
      * 
      */
-    public function search($storeId, $day, $month, $year){
+    public function search($storeId, $day, $month, $year)
+    {
 
         $day = Helper::helperCheckNull($day);
 
@@ -35,21 +36,21 @@ class EntranceLogController extends Controller
 
         $year = Helper::helperCheckNull($year);
 
+        $day = Helper::handleOneDigitNumbers($day);
+
+
         $logs = array();
 
-        if($storeId !== '*'){
+        if ($storeId !== '*') {
 
             $logs = DB::table('entrance_logs')
-            ->where('entrance_logs.store_id', '=', $storeId)
-            ->where('entrance_logs.day', Helper::decideIfLike($day), Helper::decideIfPercent($day))
-            ->where('entrance_logs.month', Helper::decideIfLike($month), Helper::decideIfPercent($month))
-            ->where('entrance_logs.year', Helper::decideIfLike($year), Helper::decideIfPercent($year))
-            ->get();
-
+                ->where('entrance_logs.store_id', '=', $storeId)
+                ->where('entrance_logs.day', Helper::decideIfLike($day), Helper::decideIfPercent($day))
+                ->where('entrance_logs.month', Helper::decideIfLike($month), Helper::decideIfPercent($month))
+                ->where('entrance_logs.year', Helper::decideIfLike($year), Helper::decideIfPercent($year))
+                ->get();
         }
 
         return response()->json($logs);
-
-
     }
 }

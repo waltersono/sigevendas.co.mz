@@ -19,7 +19,7 @@ class CategoryController extends Controller
     public function index()
     {
         return view('categories.index')->with([
-            'stores' => Store::where('user_id',Auth::user()->id)->orderBy('designation')->get(),
+            'stores' => Store::where('user_id', Auth::user()->id)->orderBy('designation')->get(),
         ]);
     }
 
@@ -30,7 +30,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('categories.create')->with('stores', Store::where('user_id',Auth::user()->id)->orderBy('designation')->get());
+        return view('categories.create')->with('stores', Store::where('user_id', Auth::user()->id)->orderBy('designation')->get());
     }
 
     /**
@@ -39,9 +39,9 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) 
+    public function store(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'designation' => 'required|min:3',
             'store' => 'required'
         ]);
@@ -53,10 +53,10 @@ class CategoryController extends Controller
 
         $category->save();
 
-        session()->flash('success','Categoria adicionada com sucesso!');
+        session()->flash('success', 'Categoria adicionada com sucesso!');
 
-        return redirect()->route('categories.index');
 
+        return redirect()->back()->withInput();
     }
 
     /**
@@ -122,7 +122,6 @@ class CategoryController extends Controller
         session()->flash('success', 'Categoria removida com sucesso!');
 
         return redirect()->route('categories.index');
-        
     }
 
     /**
@@ -131,15 +130,15 @@ class CategoryController extends Controller
      * @param int $storeId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function search($storeId){
+    public function search($storeId)
+    {
 
         $categories = DB::table('categories')
-        ->leftJoin('stores','stores.id','=','categories.store_id')
-        ->select('categories.id','categories.designation as designation','stores.designation as store')
-        ->where('categories.store_id','=',$storeId)
-        ->get();
+            ->leftJoin('stores', 'stores.id', '=', 'categories.store_id')
+            ->select('categories.id', 'categories.designation as designation', 'stores.designation as store')
+            ->where('categories.store_id', '=', $storeId)
+            ->get();
 
         return response()->json($categories);
-
     }
 }

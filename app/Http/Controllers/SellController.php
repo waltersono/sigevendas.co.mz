@@ -17,7 +17,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class SellController extends Controller
 {
-    
+
     private $user;
 
     private $receiptId;
@@ -25,14 +25,14 @@ class SellController extends Controller
      * Return the sell view 
      * @return \Illuminate\Http\Response
      */
-    public function index(){
+    public function index()
+    {
 
         $this->user = Auth::user();
 
         $store = Store::where('id', $this->user->store_id)->first();
 
         return view('sells.index')->with('store', $store);
-
     }
 
     /**
@@ -41,16 +41,17 @@ class SellController extends Controller
      * @param string productName
      * @return \Illuminate\Http\JsonResponse
      */
-    public function searchProduct($productName, $storeId){
+    public function searchProduct($productName, $storeId)
+    {
 
         $products = DB::table('products')
-        ->leftJoin('categories', 'categories.id','=','products.category_id')
-        ->leftJoin('stores','stores.id','=','categories.store_id')
-        ->select('products.designation','quantity','price','products.id')
-        ->where('products.designation','LIKE',"%{$productName}%")
-        ->where('stores.id', $storeId)
-        ->orderBy('categories.designation')
-        ->get();
+            ->leftJoin('categories', 'categories.id', '=', 'products.category_id')
+            ->leftJoin('stores', 'stores.id', '=', 'categories.store_id')
+            ->select('products.designation', 'quantity', 'price', 'products.id')
+            ->where('products.designation', 'LIKE', "%{$productName}%")
+            ->where('stores.id', $storeId)
+            ->orderBy('categories.designation')
+            ->get();
 
         return response()->json($products);
     }
@@ -59,56 +60,54 @@ class SellController extends Controller
      * Submit a checkout
      * 
      */
-    public function checkout(Request $request){
+    public function checkout(Request $request)
+    {
 
         //$this->export();
 
-        DB::transaction(function() use ($request){
+        DB::transaction(function () use ($request) {
 
             $this->receiptId = $this->saveReceipt($request);
 
-            for($i = 0; $i < count($request->productsId); $i++){
+            for ($i = 0; $i < count($request->productsId); $i++) {
 
                 $product = Product::find($request->productsId[$i]);
 
                 try {
 
-                DB::table('items')->insert([
-                    'product_name'  => $product->designation,
-                    'product_price' => $product->price,
-                    'quantity'      => $request->quantities[$i],
-                    'sub_total'     => $product->price * $request->quantities[$i],
-                    'receipt_id'    => $this->receiptId
-                ]);
+                    DB::table('items')->insert([
+                        'product_name'  => $product->designation,
+                        'product_price' => $product->price,
+                        'quantity'      => $request->quantities[$i],
+                        'sub_total'     => $product->price * $request->quantities[$i],
+                        'receipt_id'    => $this->receiptId,
+                        'created_at'    => date('Y-m-d H:i:s')
+                    ]);
 
                     $product->quantity -= $request->quantities[$i];
 
                     $product->save();
+                } catch (\Exception $e) {
 
-                }catch(\Exception $e){
-
-                    session()-> flash('danger', 'Erro na facturacao! Quantidade invalida!');
+                    session()->flash('danger', 'Erro na facturacao! Quantidade invalida!');
 
                     return redirect()->back();
-
                 }
-
             }
+        }, 1);
 
-        },1);
-        
-        session()->flash('success','Facturacao efectuada com sucesso! ');
+        session()->flash('success', 'Facturacao efectuada com sucesso! ');
 
         $receipt = DB::table('receipts')
-        ->leftJoin('users', 'users.id', '=', 'receipts.user_id')
-        ->leftJoin('stores', 'stores.id', '=', 'users.store_id')
-        ->select('receipts.id as ID', 'receipts.created_at', 'stores.designation as store','stores.address','stores.nuit', 'users.name as operator', 'total', 'paid', 'change', 'customer_name')
-        ->where('receipts.id', '=', $this->receiptId)
-        ->first();
+            ->leftJoin('users', 'users.id', '=', 'receipts.user_id')
+            ->leftJoin('stores', 'stores.id', '=', 'users.store_id')
+            ->select('receipts.id as ID', 'receipts.created_at', 'stores.designation as store', 'stores.address', 'stores.nuit', 'users.name as operator', 'total', 'paid', 'change', 'customer_name')
+            ->where('receipts.id', '=', $this->receiptId)
+            ->first();
 
         $items = Item::where('receipt_id', $this->receiptId)->get();
 
-        if($request->printReceipt)
+        if ($request->printReceipt)
             return view('exports.receipt')->with([
                 'receipt' => $receipt,
                 'items'   => $items
@@ -117,7 +116,8 @@ class SellController extends Controller
         return redirect()->back();
     }
 
-    public function saveReceipt(Request $request){
+    public function saveReceipt(Request $request)
+    {
 
         $receipt = new Receipt();
 
@@ -137,14 +137,14 @@ class SellController extends Controller
 
         $receipt->user_id = Auth::user()->id;
 
-        $receipt->store_id = Auth::user()->store_id; 
+        $receipt->store_id = Auth::user()->store_id;
 
         $receipt->save();
 
         return $receipt->id;
     }
 
-    public function export() 
+    public function export()
     {
         return Excel::download(new ReceiptsExport, 'receipts.xlsx');
         //return (new ReceiptsExport)->download('receipts.pdf', \Maatwebsite\Excel\Excel::MPDF);

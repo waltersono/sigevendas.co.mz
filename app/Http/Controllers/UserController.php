@@ -85,6 +85,7 @@ class UserController extends Controller
             $user->role = 'Operator';
 
             $user->store_id = $request->store;
+            
         }
 
         $user->save();

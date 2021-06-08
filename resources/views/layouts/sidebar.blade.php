@@ -74,14 +74,14 @@
       <span><a class="text-dark" href="#collapseReports" data-toggle="collapse">Monitoria</a></span>
     </h6>
     <ul class="nav flex-column mb-2" id="collapseReports">
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link" href="">
           <span data-feather="file-text"></span>
           Relat&oacute;rios
         </a>
-      </li>
+      </li> -->
       <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link" href="{{ route('stats.index') }}">
           <span data-feather="file-text"></span>
           Estatisticas
         </a>

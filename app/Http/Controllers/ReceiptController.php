@@ -21,12 +21,10 @@ class ReceiptController extends Controller
     public function index()
     {
         $operators = User::where('role', 'Operator')->where('user_id', Auth::user()->id)->get();
-        
-        //dd(count($operators));
 
         return view('receipts.index')->with([
             'receipts' => Receipt::all(),
-            'stores'    => Store::where('user_id',Auth::user()->id)->get(),
+            'stores'    => Store::where('user_id', Auth::user()->id)->get(),
             'operators'    => $operators,
         ]);
     }
@@ -40,7 +38,8 @@ class ReceiptController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function search($storeId, $operatorId, $day, $month, $year){
+    public function search($storeId, $operatorId, $day, $month, $year)
+    {
 
         $day = Helper::helperCheckNull($day);
 
@@ -48,62 +47,56 @@ class ReceiptController extends Controller
 
         $year = Helper::helperCheckNull($year);
 
+        $day = Helper::handleOneDigitNumbers($day);
+
         $receipts = array();
 
-        if($operatorId !== '*' && $storeId !== '*'){
+        if ($operatorId !== '*' && $storeId !== '*') {
 
             $receipts = DB::table('receipts')
-            ->leftJoin('users','users.id','=','receipts.user_id')
-            ->leftJoin('stores','stores.id','=','users.store_id')
-            ->select('receipts.id as ID','receipts.created_at','stores.designation as store','users.name as operator','total','paid','change','customer_name')
-            ->where('users.id','=',$operatorId)
-            ->where('stores.id','=',$storeId)
-            ->where('receipts.day', Helper::decideIfLike($day),Helper::decideIfPercent($day))
-            ->where('receipts.month', Helper::decideIfLike($month),Helper::decideIfPercent($month))
-            ->where('receipts.year', Helper::decideIfLike($year),Helper::decideIfPercent($year))
-            ->get();
-
-        } else if($operatorId !== '*' && $storeId === '*'){
-
-            $receipts = DB::table('receipts')
-            ->leftJoin('users', 'users.id', '=', 'receipts.user_id')
-            ->leftJoin('stores', 'stores.id', '=', 'users.store_id')
-            ->select('receipts.id as ID', 'receipts.created_at', 'stores.designation as store', 'users.name as operator', 'total', 'paid', 'change', 'customer_name')
-            ->where('users.id', '=', $operatorId)
-            ->where('receipts.day', Helper::decideIfLike($day), Helper::decideIfPercent($day))
-            ->where('receipts.month', Helper::decideIfLike($month), Helper::decideIfPercent($month))
-            ->where('receipts.year', Helper::decideIfLike($year), Helper::decideIfPercent($year))
-            ->get();
-
-        } else if($operatorId === '*' && $storeId !== '*'){
+                ->leftJoin('users', 'users.id', '=', 'receipts.user_id')
+                ->leftJoin('stores', 'stores.id', '=', 'users.store_id')
+                ->select('receipts.id as ID', 'receipts.created_at', 'stores.designation as store', 'users.name as operator', 'total', 'paid', 'change', 'customer_name')
+                ->where('users.id', '=', $operatorId)
+                ->where('stores.id', '=', $storeId)
+                ->where('receipts.day', Helper::decideIfLike($day), Helper::decideIfPercent($day))
+                ->where('receipts.month', Helper::decideIfLike($month), Helper::decideIfPercent($month))
+                ->where('receipts.year', Helper::decideIfLike($year), Helper::decideIfPercent($year))
+                ->get();
+        } else if ($operatorId !== '*' && $storeId === '*') {
 
             $receipts = DB::table('receipts')
-            ->leftJoin('users', 'users.id', '=', 'receipts.user_id')
-            ->leftJoin('stores', 'stores.id', '=', 'users.store_id')
-            ->select('receipts.id as ID', 'receipts.created_at', 'stores.designation as store', 'users.name as operator', 'total', 'paid', 'change', 'customer_name')
-            ->where('stores.id', '=', $storeId)
-            ->where('receipts.day', Helper::decideIfLike($day), Helper::decideIfPercent($day))
-            ->where('receipts.month', Helper::decideIfLike($month), Helper::decideIfPercent($month))
-            ->where('receipts.year', Helper::decideIfLike($year), Helper::decideIfPercent($year))
-            ->get();
-
-        } else if($day !== NULL || $month !== NULL || $year !== NULL){
+                ->leftJoin('users', 'users.id', '=', 'receipts.user_id')
+                ->leftJoin('stores', 'stores.id', '=', 'users.store_id')
+                ->select('receipts.id as ID', 'receipts.created_at', 'stores.designation as store', 'users.name as operator', 'total', 'paid', 'change', 'customer_name')
+                ->where('users.id', '=', $operatorId)
+                ->where('receipts.day', Helper::decideIfLike($day), Helper::decideIfPercent($day))
+                ->where('receipts.month', Helper::decideIfLike($month), Helper::decideIfPercent($month))
+                ->where('receipts.year', Helper::decideIfLike($year), Helper::decideIfPercent($year))
+                ->get();
+        } else if ($operatorId === '*' && $storeId !== '*') {
 
             $receipts = DB::table('receipts')
-            ->leftJoin('users', 'users.id', '=', 'receipts.user_id')
-            ->leftJoin('stores', 'stores.id', '=', 'users.store_id')
-            ->select('receipts.id as ID', 'receipts.created_at', 'stores.designation as store', 'users.name as operator', 'total', 'paid', 'change', 'customer_name')
-            ->where('receipts.day', Helper::decideIfLike($day), Helper::decideIfPercent($day))
-            ->where('receipts.month', Helper::decideIfLike($month), Helper::decideIfPercent($month))
-            ->where('receipts.year', Helper::decideIfLike($year), Helper::decideIfPercent($year))
-            ->get();
+                ->leftJoin('users', 'users.id', '=', 'receipts.user_id')
+                ->leftJoin('stores', 'stores.id', '=', 'users.store_id')
+                ->select('receipts.id as ID', 'receipts.created_at', 'stores.designation as store', 'users.name as operator', 'total', 'paid', 'change', 'customer_name')
+                ->where('stores.id', '=', $storeId)
+                ->where('receipts.day', Helper::decideIfLike($day), Helper::decideIfPercent($day))
+                ->where('receipts.month', Helper::decideIfLike($month), Helper::decideIfPercent($month))
+                ->where('receipts.year', Helper::decideIfLike($year), Helper::decideIfPercent($year))
+                ->get();
+        } else if ($day !== NULL || $month !== NULL || $year !== NULL) {
 
+            $receipts = DB::table('receipts')
+                ->leftJoin('users', 'users.id', '=', 'receipts.user_id')
+                ->leftJoin('stores', 'stores.id', '=', 'users.store_id')
+                ->select('receipts.id as ID', 'receipts.created_at', 'stores.designation as store', 'users.name as operator', 'total', 'paid', 'change', 'customer_name')
+                ->where('receipts.day', Helper::decideIfLike($day), Helper::decideIfPercent($day))
+                ->where('receipts.month', Helper::decideIfLike($month), Helper::decideIfPercent($month))
+                ->where('receipts.year', Helper::decideIfLike($year), Helper::decideIfPercent($year))
+                ->get();
         }
 
         return response()->json($receipts);
-        
     }
-
-    
-
 }

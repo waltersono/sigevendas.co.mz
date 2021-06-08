@@ -1,4 +1,4 @@
-$('document').ready(function(){
+$('document').ready(function () {
 
     $('#productName').on('keyup', searchProduct);
 
@@ -13,9 +13,9 @@ $('document').ready(function(){
 function calculateTotal() {
 
     var sum = 0;
-    
+
     $('#cartTable tbody tr .subTotal').each(function () {
-       
+
         sum = Number(sum) + Number($(this).val());
 
     });
@@ -31,9 +31,9 @@ function calculateChange() {
     const paid = Number($('#paid').val());
 
     var change = paid - total;
-    
-    if (total > 0 && change > 0) {
-        
+
+    if (total > 0 && change > -1) {
+
         $('#change').html(change.toFixed(2));
 
         $('#checkout').prop('disabled', false);
@@ -71,7 +71,7 @@ function addToCart() {
         $('#errorModal').modal('show');
 
         $('#errorModalTitle').html('Quantidade invalida!');
-        
+
     } else {
 
         tableBody.append("<tr>" +
@@ -84,15 +84,15 @@ function addToCart() {
             "<button type='button' class='btn btn-danger btn-sm'>Remover</button> " +
             "</td>" +
             "</tr>");
-        
+
         calculateTotal();
-        
+
     }
 
 }
 
 function removeItem() {
-    
+
     $(this).parent().parent().remove();
 
     calculateTotal();
@@ -100,7 +100,7 @@ function removeItem() {
 }
 
 function searchProduct() {
-    
+
     var productName = $('#productName').val();
 
     const storeId = $('#storeId').val();
@@ -108,7 +108,7 @@ function searchProduct() {
     const tableBody = $('#productsTable tbody');
 
     if (productName != '') {
-        
+
         $('#spinner').css('display', 'block');
 
         var url = '../api/sells/searchProduct/' + productName + '/' + storeId;
@@ -117,7 +117,7 @@ function searchProduct() {
             method: 'GET',
             url: url,
             success: function (data) {
-                
+
                 tableBody.html("");
 
                 $('#spinner').css('display', 'none');
@@ -132,7 +132,7 @@ function searchProduct() {
                 } else if (data.length > 0) {
                     for (var i = 0; i < data.length; i++) {
                         if (data[i].quantity !== 0) {
-                            
+
                             tableBody.append("<tr>" +
                                 "<td>" + (i + 1) + "</td>" +
                                 "<td>" + data[i].designation + "</td>" +
@@ -140,10 +140,10 @@ function searchProduct() {
                                 "<td>" + numberWithCommas(data[i].price) + "</td>" +
                                 "<td><input type='number' min='1' class='form-control form-control-sm' /></td>" +
                                 "<td>" +
-                                "<button type='button' data-id='" + data[i].id + "' data-product='" + data[i].designation + "' data-price='" + data[i].price +"' class='btn btn-success btn-sm'>Adicionar</button> " +
+                                "<button type='button' data-id='" + data[i].id + "' data-product='" + data[i].designation + "' data-price='" + data[i].price + "' class='btn btn-success btn-sm'>Adicionar</button> " +
                                 "</td>" +
                                 "</tr>");
-                            
+
                         } else {
 
                             tableBody.append("<tr class='bg-secondary'>" +
