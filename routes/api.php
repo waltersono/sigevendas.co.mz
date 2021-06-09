@@ -18,11 +18,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('users/getUserInfo/{userId}', 'UserController@getUserInfo');
+
 Route::get('products/search/{store}/{category}', 'ProductController@search');
 
 Route::get('categories/search/{storeId}', 'CategoryController@search');
 
 Route::get('sells/searchProduct/{productName}/{operatorId}', 'SellController@searchProduct');
+
+Route::get('sells/getAllProductsByStore/{storeId}', 'SellController@getAllProductsByStore');
 
 Route::get('receipts/search/{storeId}/{operatorId}/{day}/{month}/{year}', 'ReceiptController@search');
 

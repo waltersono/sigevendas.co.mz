@@ -4,6 +4,7 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <h1 class="h2">Vendas - {{ isset($store->designation) ? $store->designation : '' }}</h1>
     <input type="hidden" id="storeId" value="{{ Auth::user()->store_id }}">
+    <input type="hidden" id="userId" value="{{ Auth::user()->id }}">
 </div>
 <form action="{{ route('sells.checkout') }}" method="POST">
 
@@ -117,9 +118,9 @@
     </div>
 </form>
 
-
 @include('partials.error')
 @endsection
 @section('scripts')
-<script src="{{ asset('src/js/sells/index.js') }}"></script>
+<!-- <script src="{{ asset('src/js/sells/index.js') }}"></script> -->
+<script src="{{ asset('src/pwa/sells.js') }}"></script>
 @endsection

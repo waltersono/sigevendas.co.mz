@@ -16,16 +16,12 @@ class isOperator
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user()->role == 'Operator'){
+        if (Auth::user()->role == 'Operator') {
 
             return $next($request);
-
         } else {
 
-            session()->flash('danger','Acesso proibido!');
-
             return redirect()->back();
-            
         }
     }
 }

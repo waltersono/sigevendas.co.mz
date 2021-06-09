@@ -21,8 +21,6 @@ class isAdministrator
             return $next($request);
         } else {
 
-            session()->flash('danger', 'Acesso proibido!');
-
             return redirect()->back();
         }
     }

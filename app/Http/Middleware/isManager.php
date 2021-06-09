@@ -16,16 +16,12 @@ class isManager
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user()->role == 'Manager'){
-            
+        if (Auth::user()->role == 'Manager') {
+
             return $next($request);
-
-        }else{
-
-            session()->flash('danger','Acesso proibido!');
+        } else {
 
             return redirect()->back();
         }
-
     }
 }

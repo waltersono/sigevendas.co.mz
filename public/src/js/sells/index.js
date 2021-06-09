@@ -76,8 +76,8 @@ function addToCart() {
 
         tableBody.append("<tr>" +
             "<td><input type='text' disabled class='form-control form-control-plaintext form-control-sm' value='" + productName + "' />" +
-            "<input type='hidden' name='productsId[]' class='form-control form-control-sm' value='" + productId + "' /></td>" +
-            "<td><input type='number' name='quantities[]' class='form-control form-control-plaintext form-control-sm' value='" + quantity + "' /></td>" +
+            "<input type='hidden' name='productsId[]' class='form-control form-control-sm productIds' value='" + productId + "' /></td>" +
+            "<td><input type='number' name='quantities[]' class='form-control form-control-plaintext form-control-sm quantities' value='" + quantity + "' /></td>" +
             "<td><input type='number' disabled class='form-control form-control-plaintext form-control-sm' value='" + price + "' /></td>" +
             "<td><input type='number' disabled class='subTotal form-control form-control-plaintext form-control-sm' value='" + subTotal.toFixed(2) + "' /></td>" +
             "<td>" +

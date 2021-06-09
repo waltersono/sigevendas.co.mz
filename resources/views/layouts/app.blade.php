@@ -5,28 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>@yield('title')</title>
-  <link rel="stylesheet" href="{{ asset('/src/vendor/bootstrap/css/bootstrap.css') }}">
+  <link rel="stylesheet" href="{{ asset('src/vendor/bootstrap/css/bootstrap.css') }}">
   <link rel="stylesheet" href="{{ asset('src/vendor/dashboard/dashboard.css') }}">
   <link rel="stylesheet" href="{{ asset('src/css/custom.css') }}">
-
-
+  @laravelPWA
   @yield('styles')
-  <!-- <style>
-      .bd-placeholder-img { 
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-      }
 
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }      
-    </style> -->
 </head>
 
 <body>
@@ -58,7 +42,10 @@
   <script src="{{ asset('src/vendor/bootstrap/js/bootstrap.js') }}"></script>
   <script src="{{ asset('src/js/scripts.js') }}"></script>
   @yield('scripts')
-  <script src="{{ asset('src/js/script_activate_navlink.js') }}"></script>
+  <script src="{{ asset('src/pwa/promise.js') }}"></script>
+  <script src="{{ asset('src/pwa/fetch.js') }}"></script>
+  <script src="{{ asset('src/pwa/idb.js') }}"></script>
+  <script src="{{ asset('src/pwa/dao.js') }}"></script>
 </body>
 
 </html>

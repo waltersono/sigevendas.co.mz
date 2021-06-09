@@ -85,7 +85,6 @@ class UserController extends Controller
             $user->role = 'Operator';
 
             $user->store_id = $request->store;
-            
         }
 
         $user->save();
@@ -183,5 +182,16 @@ class UserController extends Controller
         }
 
         return redirect()->route('users.index');
+    }
+
+    /**
+     * 
+     * 
+     */
+    public function getUserInfo($userId)
+    {
+        $user = User::find($userId);
+
+        return response()->json($user);
     }
 }

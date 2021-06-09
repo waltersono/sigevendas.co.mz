@@ -149,4 +149,21 @@ class SellController extends Controller
         return Excel::download(new ReceiptsExport, 'receipts.xlsx');
         //return (new ReceiptsExport)->download('receipts.pdf', \Maatwebsite\Excel\Excel::MPDF);
     }
+
+    /**
+     * 
+     * 
+     */
+    public function getAllProductsByStore($storeId)
+    {
+        $products = DB::table('products')
+            ->leftJoin('categories', 'categories.id', '=', 'products.category_id')
+            ->leftJoin('stores', 'stores.id', '=', 'categories.store_id')
+            ->select('products.designation', 'quantity', 'price', 'products.id')
+            ->where('stores.id', $storeId)
+            ->orderBy('categories.designation')
+            ->get();
+
+        return response()->json($products);
+    }
 }
