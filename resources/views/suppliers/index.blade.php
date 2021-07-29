@@ -1,9 +1,9 @@
 @extends('layouts.app')
-@section('title') Categorias @endsection
+@section('title') Fornecedores @endsection
 @section('content')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Categorias</h1>
-    <a href="{{ route('categories.create') }}" class="btn btn-success btn-sm float-right">
+    <h1 class="h2">Fornecedores</h1>
+    <a href="{{ route('suppliers.create') }}" class="btn btn-success btn-sm float-right">
         <span data-feather="plus"></span> Adicionar
     </a>
 </div>
@@ -30,18 +30,20 @@
 </div>
 
 <div class="table-responsive">
-    <table class="table table-striped table-sm" id="categoriesTable">
+    <table class="table table-striped table-sm" id="suppliersTable">
         <thead>
             <tr>
                 <th>#</th>
                 <th>Estabelecimento</th>
-                <th>Categoria</th>
+                <th>Fornecedor</th>
+                <th>Contacto</th>
+                <th>Email</th>
                 <th>Ac&ccedil;&atilde;o</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td colspan="6" class="text-center font-weight-bold">Pesquisa com os filtros acima</td>
+                <td colspan="10" class="text-center font-weight-bold">Pesquisa com os filtros acima</td>
             </tr>
         </tbody>
     </table>
@@ -54,5 +56,5 @@
 @endsection
 @section('scripts')
 @include('partials.delete_scripts')
-<script src="{{ asset('src/js/categories/index.js') }}"></script>
+<script src="{{ asset('src/js/suppliers/index.js') }}"></script>
 @endsection

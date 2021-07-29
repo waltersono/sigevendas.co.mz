@@ -33,6 +33,15 @@
         </div>
         <div class="col-md-3">
             <div class="form-group">
+                <label for="supplier">Fornecedor <span class="text-danger">*</span></label>
+                <select name="supplier" id="supplier" class="form-control form-control-sm">
+                    <option value="">-- Selecione o categoria --</option>
+                </select>
+                <input type="hidden" id="supplier_id" name="supplier_id" value="{{ isset($product) ? $product->supplier_id : '' }}" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
                 <label for="designation">Designa&ccedil;&atilde;o <span class="text-danger">*</span></label>
                 <input type="text" name="designation" id="designation" class="form-control form-control-sm" placeholder="Nome do Produto" value="{{ isset($product) ? $product->designation : '' }}" />
             </div>
@@ -43,6 +52,8 @@
                 <input type="number" name="price" id="price" class="form-control form-control-sm" placeholder="Introduza o preco do produto" value="{{ isset($product) ? $product->price : '' }}" step=".01" />
             </div>
         </div>
+    </div>
+    <div class="row mb-5">
     </div>
     <div class="row mb-5">
         <div class="col-md-12">

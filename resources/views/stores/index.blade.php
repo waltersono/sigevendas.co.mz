@@ -31,7 +31,7 @@
                 <td>{{ $i->address }}</td>
                 <td>{{ $i->nuit }}</td>
                 <td>{{ $i->contact }}</td>
-                <td><span class="badge badge-success">Expira em 31/12/2021</span></td>  
+                <td><span class="badge badge-success">Fase de Teste</span></td>
                 <td>
                     <a href="{{ route('stores.show', $i->id) }}" class="btn btn-info btn-sm">
                         <span data-feather="eye"></span>
@@ -55,7 +55,7 @@
             @endforeach
             @else
             <tr>
-                <td colspan="6" class="text-center font-weight-bold">Nenhum registo encontrado</td>
+                <td colspan="10" class="text-center font-weight-bold">Nenhum registo encontrado</td>
             </tr>
             @endif
         </tbody>
@@ -63,5 +63,5 @@
 </div>
 @endsection
 @section('scripts')
-<script src="{{ asset('src/js/script_remove_record_modal.js') }}"></script>
+@include('partials.delete_scripts')
 @endsection

@@ -51,6 +51,7 @@
             <tr>
                 <th>#</th>
                 <th>Produto</th>
+                <th>Fornecedor</th>
                 <th>Total</th>
                 <th>MT</th>
             </tr>

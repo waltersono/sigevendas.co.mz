@@ -18,9 +18,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('products/search/{store}/{category}', 'ProductController@search');
+Route::get('products/search/{store}/{category}/{supplier}', 'ProductController@search');
 
 Route::get('categories/search/{storeId}', 'CategoryController@search');
+
+Route::get('suppliers/search/{storeId}', 'SupplierController@search');
 
 Route::get('sells/searchProduct/{productName}/{operatorId}', 'SellController@searchProduct');
 

@@ -10,7 +10,7 @@
 
 <h3 class="h4">Filtro</h3>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
         <label for="store">Estabelecimento</label>
         <select name="store" id="store" class="form-control form-control-sm">
             <option value="">-- Selecione o estabelecimento --</option>
@@ -20,10 +20,17 @@
         </select>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-4">
         <label for="category">Categoria</label>
         <select name="category" id="category" class="form-control form-control-sm">
             <option value="">-- Selecione o categoria --</option>
+
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label for="supplier">Fornecedor</label>
+        <select name="supplier" id="supplier" class="form-control form-control-sm">
+            <option value="">-- Selecione o fornecedor --</option>
 
         </select>
     </div>
@@ -44,6 +51,7 @@
                 <th>#</th>
                 <th>Estabelecimentos</th>
                 <th>Categoria</th>
+                <th>Fornecedor</th>
                 <th>Designa&ccedil;&atilde;o</th>
                 <th>Quantidade</th>
                 <th>Pre&ccedil;o <strong>(MT)</strong></th>
@@ -74,7 +82,6 @@
 </div>
 @endsection
 @section('scripts')
+@include('partials.delete_scripts')
 <script src="{{ asset('src/js/products/index.js') }}"></script>
-<script src="{{ asset('src/js/script_remove_record_modal.js') }}"></script>
-<script src="{{ asset('src/js/script_remove_record_modal_ajax.js') }}"></script>
 @endsection

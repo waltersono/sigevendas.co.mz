@@ -47,12 +47,14 @@ class StatController extends Controller
                 ->leftJoin('receipts', 'receipts.id', '=', 'items.receipt_id')
                 ->select(
                     'items.product_name',
+                    'items.supplier_name',
                     DB::raw('SUM(items.quantity) as quantity'),
                     DB::raw('SUM(items.sub_total) as total_cash')
                 )
                 ->where('receipts.store_id', '=', $storeId)
                 ->where('items.created_at', 'LIKE', "{$year}-{$month}%")
                 ->groupBy('product_name')
+                ->groupBy('supplier_name')
                 ->get();
         }
 

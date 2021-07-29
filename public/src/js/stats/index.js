@@ -34,6 +34,7 @@ function search() {
                     tableBody.append("<tr>" +
                         "<td>" + (i + 1) + "</td>" +
                         "<td>" + data[i].product_name + "</td>" +
+                        "<td>" + data[i].supplier_name + "</td>" +
                         "<td>" + data[i].quantity + "</td>" +
                         "<td>" + data[i].total_cash + "</td>" +
                         "</tr>");

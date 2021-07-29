@@ -15,7 +15,7 @@ class StoreController extends Controller
      */
     public function index()
     {
-        return view('stores.index')->with('stores', Store::where('user_id',Auth::user()->id)->orderBy('designation')->get());
+        return view('stores.index')->with('stores', Store::where('user_id', Auth::user()->id)->orderBy('designation')->get());
     }
 
     /**
@@ -36,7 +36,7 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'designation' => 'required',
             'address' => 'required'
         ]);
@@ -49,7 +49,7 @@ class StoreController extends Controller
         $store->user_id = Auth::user()->id;
         $store->save();
 
-        session()->flash('success','Estabelecimento adicionado com sucesso!');
+        session()->flash('success', 'Estabelecimento adicionado com sucesso!');
 
         return redirect()->route('stores.index');
     }
@@ -66,7 +66,6 @@ class StoreController extends Controller
         $table = Store::find($id)->getAttributes();
 
         return view('general.show', ['table' => $table, 'designation' => 'Estabelecimento']);
-
     }
 
     /**
@@ -77,10 +76,9 @@ class StoreController extends Controller
      */
     public function edit($id)
     {
-        $store = Store::where('id',$id)->where('user_id',Auth::user()->id)->first();
+        $store = Store::where('id', $id)->where('user_id', Auth::user()->id)->first();
 
         return view('stores.create')->with('store', $store);
-
     }
 
     /**
@@ -122,7 +120,7 @@ class StoreController extends Controller
 
         $store->delete();
 
-        session()->flash('success','Estabelecimento removido com sucesso!');
+        session()->flash('success', 'Estabelecimento removido com sucesso!');
 
         return redirect()->back();
     }

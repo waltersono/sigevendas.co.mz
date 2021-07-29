@@ -48,6 +48,7 @@
             <tr>
                 <th>#</th>
                 <th>Produto</th>
+                <th>Fornecedor</th>
                 <th>Preco</th>
                 <th>Quantidade</th>
                 <th>Sub Total</th>
@@ -59,6 +60,7 @@
             <tr>
                 <td>{{ ++$index }}</td>
                 <td>{{ $i->product_name }}</td>
+                <td>{{ $i->supplier_name }}</td>
                 <td>{{ $i->product_price }}</td>
                 <td>{{ $i->quantity }}</td>
                 <td>{{ $i->sub_total }}</td>

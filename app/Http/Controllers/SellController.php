@@ -46,8 +46,9 @@ class SellController extends Controller
 
         $products = DB::table('products')
             ->leftJoin('categories', 'categories.id', '=', 'products.category_id')
+            ->leftJoin('suppliers', 'suppliers.id', '=', 'products.supplier_id')
             ->leftJoin('stores', 'stores.id', '=', 'categories.store_id')
-            ->select('products.designation', 'quantity', 'price', 'products.id')
+            ->select('products.designation', 'quantity', 'price', 'products.id', 'suppliers.designation as supplier')
             ->where('products.designation', 'LIKE', "%{$productName}%")
             ->where('stores.id', $storeId)
             ->orderBy('categories.designation')
@@ -77,6 +78,7 @@ class SellController extends Controller
 
                     DB::table('items')->insert([
                         'product_name'  => $product->designation,
+                        'supplier_name' => $product->supplier->designation,
                         'product_price' => $product->price,
                         'quantity'      => $request->quantities[$i],
                         'sub_total'     => $product->price * $request->quantities[$i],

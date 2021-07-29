@@ -16,6 +16,7 @@ class CreateItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('product_name');
+            $table->string('supplier_name');
             $table->double('product_price');
             $table->unsignedBigInteger('quantity');
             $table->decimal('sub_total');

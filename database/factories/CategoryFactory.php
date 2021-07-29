@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Category::class, function (Faker $faker) {
     return [
-        'designation' => ucfirst($faker->randomElement(array('Alimentos','Alimentos congelados','Frios', 'Hortifruti'))),
+        'designation' => ucfirst($faker->word()),
         'store_id'  => $faker->randomElement(App\Models\Store::all())
     ];
 });

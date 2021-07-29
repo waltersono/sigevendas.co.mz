@@ -31,6 +31,12 @@
         </a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="{{ route('suppliers.index') }}">
+          <span data-feather="truck"></span>
+          Fornecedores
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="{{ route('products.index') }}">
           <span data-feather="gift"></span>
           Produtos
@@ -38,7 +44,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{ route('entrances.index') }}">
-          <span data-feather="truck"></span>
+          <span data-feather="arrow-right"></span>
           Entradas
         </a>
       </li>

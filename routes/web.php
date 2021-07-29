@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('isManager')->group(function () {
         Route::resource('stores', 'StoreController');
         Route::resource('categories', 'CategoryController');
+        Route::resource('suppliers', 'SupplierController');
         Route::resource('products', 'ProductController');
         Route::resource('stocks', 'StockController');
         Route::resource('receipts', 'ReceiptController');

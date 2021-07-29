@@ -7,9 +7,9 @@ use Faker\Generator as Faker;
 
 $factory->define(Store::class, function (Faker $faker) {
     return [
-        'designation' => ucfirst($faker->unique()->randomElement(array('Mercearia Ceu','Mercaria Amizade','Bar dos Amigos','Bar Nova Vida','Explanada Majakaze','Explanada Terra'))),
-        'nuit' => $faker->numberBetween(10000001,99999999),
+        'designation' => ucfirst($faker->unique()->words(3, true)),
+        'nuit' => $faker->numberBetween(10000001, 99999999),
         'address' => $faker->address,
-        'user_id' => $faker->randomElement(App\Models\User::where('role','Manager')->get())
+        'user_id' => $faker->randomElement(App\Models\User::where('role', 'Manager')->get())
     ];
 });

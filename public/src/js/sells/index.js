@@ -39,6 +39,7 @@ function calculateChange() {
         $('#checkout').prop('disabled', false);
 
         $('#hiddenTotal').val(total);
+
         $('#hiddenChange').val(change);
 
     } else {
@@ -131,16 +132,17 @@ function searchProduct() {
 
                 } else if (data.length > 0) {
                     for (var i = 0; i < data.length; i++) {
+                        let productName = data[i].designation + ' (' + data[i].supplier + ')';
                         if (data[i].quantity !== 0) {
 
                             tableBody.append("<tr>" +
                                 "<td>" + (i + 1) + "</td>" +
-                                "<td>" + data[i].designation + "</td>" +
+                                "<td>" + productName + "</td>" +
                                 "<td>" + data[i].quantity + "</td>" +
                                 "<td>" + numberWithCommas(data[i].price) + "</td>" +
                                 "<td><input type='number' min='1' class='form-control form-control-sm' /></td>" +
                                 "<td>" +
-                                "<button type='button' data-id='" + data[i].id + "' data-product='" + data[i].designation + "' data-price='" + data[i].price + "' class='btn btn-success btn-sm'>Adicionar</button> " +
+                                "<button type='button' data-id='" + data[i].id + "' data-product='" + productName + "' data-price='" + data[i].price + "' class='btn btn-success btn-sm'>Adicionar</button> " +
                                 "</td>" +
                                 "</tr>");
 
@@ -148,7 +150,7 @@ function searchProduct() {
 
                             tableBody.append("<tr class='bg-secondary'>" +
                                 "<td>" + (i + 1) + "</td>" +
-                                "<td>" + data[i].designation + "</td>" +
+                                "<td>" + productName + "</td>" +
                                 "<td>" + data[i].quantity + "</td>" +
                                 "<td>" + numberWithCommas(data[i].price) + "</td>" +
                                 "<td><input type='number' min='1' class='form-control form-control-sm' /></td>" +

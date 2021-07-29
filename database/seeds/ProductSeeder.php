@@ -3,52 +3,53 @@
 use Illuminate\Database\Seeder;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Supplier;
 use App\Models\Store;
 
 class ProductSeeder extends Seeder
 {
     private $alimentos = array(
-        'Arroz','Feijao','Macarrao','Oleo','Azeite','Tempero','Maionese','Farinha','Cafe','Cha','Leite'
+        'Arroz', 'Feijao', 'Macarrao', 'Oleo', 'Azeite', 'Tempero', 'Maionese', 'Farinha', 'Cafe', 'Cha', 'Leite'
     );
 
     private $alimentosCongelados = array(
-        'Frango','Lasanha','Pizza','Salsicha','Petiscos','Humburguer','Linguica','Pao de queijo','Batata'
+        'Frango', 'Lasanha', 'Pizza', 'Salsicha', 'Petiscos', 'Humburguer', 'Linguica', 'Pao de queijo', 'Batata'
     );
 
     private $frios = array(
-        'Mateiga','Margarina','Requijao','Leite fermentado','Queijo','Presunto','Mortadela'
+        'Mateiga', 'Margarina', 'Requijao', 'Leite fermentado', 'Queijo', 'Presunto', 'Mortadela'
     );
 
     private $hortifruti = array(
-        'Banana, Melancia','Manga','Maca','Papaia',
-        'Batata','Cenoura','Pimentao','Beterraba',
-        'Couve','Alface','Couve-flor','Repolho',
-        'Alho','Cebola','Salsa',
+        'Banana, Melancia', 'Manga', 'Maca', 'Papaia',
+        'Batata', 'Cenoura', 'Pimentao', 'Beterraba',
+        'Couve', 'Alface', 'Couve-flor', 'Repolho',
+        'Alho', 'Cebola', 'Salsa',
         'Polpas de frutas congeladas'
     );
 
     private $padaria = array(
-        'Pao de forma','Pao de Cachorro Quente',
-        'Pao de Humburguer','Biscoito','Massa Pronta para bolo',
+        'Pao de forma', 'Pao de Cachorro Quente',
+        'Pao de Humburguer', 'Biscoito', 'Massa Pronta para bolo',
         'Paes de Queijo'
     );
 
     private $bebidas = array(
-        'Agua','Chas prontos','Yougurte','Sumo','Refresco','Vitamina','Achocolatado','Cerveja','Vinho','Vodca'
+        'Agua', 'Chas prontos', 'Yougurte', 'Sumo', 'Refresco', 'Vitamina', 'Achocolatado', 'Cerveja', 'Vinho', 'Vodca'
     );
 
     private $limpeza = array(
-        'Agua sanitaria','Desinfectante','Detergente','Esponja de aco','Sabao em po','Sabao em barra',
-        'Amaciante','Alvenjante','Escovinhas','Vassoura','Rodo','Pa','Pano de chao','Pano de prato','Luvas de borracha'
+        'Agua sanitaria', 'Desinfectante', 'Detergente', 'Esponja de aco', 'Sabao em po', 'Sabao em barra',
+        'Amaciante', 'Alvenjante', 'Escovinhas', 'Vassoura', 'Rodo', 'Pa', 'Pano de chao', 'Pano de prato', 'Luvas de borracha'
     );
 
     private $higiene = array(
-        'Shampoo','Condicionador','Creme de pentear','Escova de cabelo','Pente','Desodorante',
-        'Lamina de Barbear','Creme dental','Escova de dentes','Enxaguante bucal',
+        'Shampoo', 'Condicionador', 'Creme de pentear', 'Escova de cabelo', 'Pente', 'Desodorante',
+        'Lamina de Barbear', 'Creme dental', 'Escova de dentes', 'Enxaguante bucal',
         'Creme hidratante para o corpo',
-        'Sabonete','Papel Higienico','Absorvente'
+        'Sabonete', 'Papel Higienico', 'Absorvente'
     );
-    
+
     /**
      * Run the database seeds.
      *
@@ -58,19 +59,20 @@ class ProductSeeder extends Seeder
     {
         $stores = Store::all();
 
-        foreach($stores as $s){
+        foreach ($stores as $s) {
 
             $categories = Category::where('store_id', $s->id)->get();
+            $suppliers = Supplier::where('store_id', $s->id)->get();
 
-            foreach($this->alimentos as $i){
-                
+            foreach ($this->alimentos as $i) {
+
                 $product = new Product();
                 $product->designation = $i;
-                $product->price = random_int(1,1000);
+                $product->price = random_int(1, 1000);
                 $product->category_id = $categories[0]->id;
-                $product->quantity = random_int(1,50);
+                $product->supplier_id = $suppliers[0]->id;
+                $product->quantity = random_int(1, 50);
                 $product->save();
-
             }
 
             foreach ($this->alimentosCongelados as $i) {
@@ -79,9 +81,10 @@ class ProductSeeder extends Seeder
                 $product->designation = $i;
                 $product->price = random_int(1, 1000);
                 $product->category_id = $categories[1]->id;
+                $product->supplier_id = $suppliers[1]->id;
+
                 $product->quantity = random_int(1, 50);
                 $product->save();
-
             }
 
             foreach ($this->frios as $i) {
@@ -90,6 +93,8 @@ class ProductSeeder extends Seeder
                 $product->designation = $i;
                 $product->price = random_int(1, 1000);
                 $product->category_id = $categories[2]->id;
+                $product->supplier_id = $suppliers[2]->id;
+
                 $product->quantity = random_int(1, 50);
                 $product->save();
             }
@@ -100,9 +105,10 @@ class ProductSeeder extends Seeder
                 $product->designation = $i;
                 $product->price = random_int(1, 1000);
                 $product->category_id = $categories[3]->id;
+                $product->supplier_id = $suppliers[3]->id;
+
                 $product->quantity = random_int(1, 50);
                 $product->save();
-
             }
 
             foreach ($this->padaria as $i) {
@@ -112,8 +118,9 @@ class ProductSeeder extends Seeder
                 $product->price = random_int(1, 1000);
                 $product->quantity = random_int(1, 50);
                 $product->category_id = $categories[4]->id;
-                $product->save();
+                $product->supplier_id = $suppliers[4]->id;
 
+                $product->save();
             }
 
             foreach ($this->bebidas as $i) {
@@ -122,9 +129,10 @@ class ProductSeeder extends Seeder
                 $product->designation = $i;
                 $product->price = random_int(1, 1000);
                 $product->category_id = $categories[5]->id;
+                $product->supplier_id = $suppliers[5]->id;
+
                 $product->quantity = random_int(1, 50);
                 $product->save();
-
             }
 
             foreach ($this->limpeza as $i) {
@@ -133,9 +141,10 @@ class ProductSeeder extends Seeder
                 $product->designation = $i;
                 $product->price = random_int(1, 1000);
                 $product->category_id = $categories[6]->id;
+                $product->supplier_id = $suppliers[6]->id;
+
                 $product->quantity = random_int(1, 50);
                 $product->save();
-
             }
 
             foreach ($this->higiene as $i) {
@@ -144,10 +153,11 @@ class ProductSeeder extends Seeder
                 $product->designation = $i;
                 $product->price = random_int(1, 1000);
                 $product->category_id = $categories[7]->id;
+                $product->supplier_id = $suppliers[7]->id;
+
                 $product->quantity = random_int(1, 50);
                 $product->save();
-
             }
         }
-   }
+    }
 }

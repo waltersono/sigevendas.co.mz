@@ -10,6 +10,7 @@ use App\Models\EntranceLog;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Supplier;
 
 
 class ProductController extends Controller
@@ -22,7 +23,7 @@ class ProductController extends Controller
     public function index()
     {
         return view('products.index')->with([
-            'stores' => Store::where('user_id',Auth::user()->id)->orderBy('designation')->get(),
+            'stores' => Store::where('user_id', Auth::user()->id)->orderBy('designation')->get(),
         ]);
     }
 
@@ -35,7 +36,7 @@ class ProductController extends Controller
     {
         return view('products.create')->with([
             'stores' => Store::where('user_id', Auth::user()->id)->orderBy('designation')->get()
-            ]);
+        ]);
     }
 
     /**
@@ -48,6 +49,7 @@ class ProductController extends Controller
     {
         $this->validate($request, [
             'category' => 'required',
+            'supplier' => 'required',
             'designation' => 'required',
             'price' => 'required',
         ]);
@@ -56,13 +58,12 @@ class ProductController extends Controller
         $product->designation = ucfirst($request->designation);
         $product->price = $request->price;
         $product->category_id = $request->category;
+        $product->supplier_id = $request->supplier;
         $product->save();
 
-        session()->flash('success','Produto adicionado com sucesso!');
+        session()->flash('success', 'Produto adicionado com sucesso!');
 
         return redirect()->back();
-
-            
     }
 
     /**
@@ -87,6 +88,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $category = Category::find($product->category_id);
+        $supplier = Supplier::find($product->supplier_id);
 
         $choosenStoreId = Store::find($category->store_id);
 
@@ -109,6 +111,7 @@ class ProductController extends Controller
     {
         $this->validate($request, [
             'category' => 'required',
+            'supplier' => 'required',
             'designation' => 'required',
             'price' => 'required',
         ]);
@@ -116,6 +119,8 @@ class ProductController extends Controller
         $product->designation = ucfirst($request->designation);
         $product->price = $request->price;
         $product->category_id = $request->category;
+        $product->supplier_id = $request->supplier;
+
         $product->save();
 
         session()->flash('success', 'Produto actualizado com sucesso!');
@@ -133,7 +138,7 @@ class ProductController extends Controller
     {
         $product->delete();
 
-        session()->flash('success','Produto removido com sucesso');
+        session()->flash('success', 'Produto removido com sucesso');
 
         return redirect()->back();
     }
@@ -146,35 +151,54 @@ class ProductController extends Controller
      * 
      * @return \Illuminate\Http\JsonResponse
      */
-    public function search($store , $category){
+    public function search($store, $category, $supplier)
+    {
 
-        if($category !== '*'){
-
-            $products = DB::table('products')
-            ->leftJoin('categories', 'categories.id', '=', 'products.category_id')
-            ->leftJoin('stores', 'stores.id', '=', 'categories.store_id')
-            ->select('products.id as id', 'products.designation', 'price', 'quantity', 'stores.designation as store', 'categories.designation as category')
-            ->where('category_id', $category)
-            ->get();
-
-        }else if($store !== '*' && $category == '*'){
+        if ($category !== '*' && $supplier === '*') {
 
             $products = DB::table('products')
-            ->leftJoin('categories', 'categories.id', '=', 'products.category_id')
-            ->leftJoin('stores', 'stores.id', '=', 'categories.store_id')
-            ->select('products.id as id', 'products.designation', 'price', 'quantity', 'stores.designation as store', 'categories.designation as category')
-            ->where('categories.store_id', $store)
-            ->get();
+                ->leftJoin('categories', 'categories.id', '=', 'products.category_id')
+                ->leftJoin('suppliers', 'suppliers.id', '=', 'products.supplier_id')
+                ->leftJoin('stores', 'stores.id', '=', 'categories.store_id')
+                ->select('products.id as id', 'products.designation', 'price', 'quantity', 'stores.designation as store', 'categories.designation as category', 'suppliers.designation as supplier')
+                ->where('category_id', $category)
+                ->get();
+        } elseif ($category === '*' && $supplier !== '*') {
 
-        }else{
+            $products = DB::table('products')
+                ->leftJoin('categories', 'categories.id', '=', 'products.category_id')
+                ->leftJoin('suppliers', 'suppliers.id', '=', 'products.supplier_id')
+                ->leftJoin('stores', 'stores.id', '=', 'categories.store_id')
+                ->select('products.id as id', 'products.designation', 'price', 'quantity', 'stores.designation as store', 'categories.designation as category', 'suppliers.designation as supplier')
+                ->where('supplier_id', $supplier)
+                ->get();
+        } elseif ($category !== '*' && $supplier !== '*') {
+
+            $products = DB::table('products')
+                ->leftJoin('categories', 'categories.id', '=', 'products.category_id')
+                ->leftJoin('suppliers', 'suppliers.id', '=', 'products.supplier_id')
+                ->leftJoin('stores', 'stores.id', '=', 'categories.store_id')
+                ->select('products.id as id', 'products.designation', 'price', 'quantity', 'stores.designation as store', 'categories.designation as category', 'suppliers.designation as supplier')
+                ->where('supplier_id', $supplier)
+                ->where('category_id', $category)
+                ->get();
+        } else if ($store !== '*' && $category === '*' && $supplier === '*') {
+
+            $products = DB::table('products')
+                ->leftJoin('categories', 'categories.id', '=', 'products.category_id')
+                ->leftJoin('suppliers', 'suppliers.id', '=', 'products.supplier_id')
+
+                ->leftJoin('stores', 'stores.id', '=', 'categories.store_id')
+                ->select('products.id as id', 'products.designation', 'price', 'quantity', 'stores.designation as store', 'categories.designation as category', 'suppliers.designation as supplier')
+                ->where('categories.store_id', $store)
+                ->get();
+        } else {
 
             $products = array();
-
         }
-        
+
 
         return response()->json($products);
-
     }
 
     /**
@@ -183,7 +207,8 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function add(Request $request){
+    public function add(Request $request)
+    {
 
         $this->validate($request, [
             'id' => 'required',
@@ -200,23 +225,22 @@ class ProductController extends Controller
 
         $product->quantity += $request->add_quantity;
 
-        if($product->save()){
+        if ($product->save()) {
 
             $this->addEntranceLog($product, $old_quantity, $add_quantity);
 
             session()->flash('success', 'Adicionada ' . $request->new_quantity . ' unidades a ' . $request->product . ' com sucesso!');
-
-        }else{
+        } else {
 
             session()->flash('danger', 'Nao foi possivel efectuar o processamento!');
-
         }
 
 
         return redirect()->back();
     }
 
-    public function addEntranceLog($product, $old_quantity, $add_quantity){
+    public function addEntranceLog($product, $old_quantity, $add_quantity)
+    {
 
         $log = new EntranceLog();
 
@@ -239,9 +263,5 @@ class ProductController extends Controller
         $log->year = date('Y');
 
         $log->save();
-
-
     }
-
-    
 }

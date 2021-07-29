@@ -2,16 +2,50 @@ var isUpdate;
 
 $('document').ready(function () {
 
-     isUpdate = window.location.href.endsWith('edit'); 
+    isUpdate = window.location.href.endsWith('edit');
 
     if (isUpdate) {
         getCategoriesByStore();
+        getSuppliersByStore();
     }
 
 
     $('#store').change(getCategoriesByStore);
+    $('#store').change(getSuppliersByStore);
 
 });
+
+function getSuppliersByStore() {
+    const storeId = $('#store').val();
+
+    const url = '../../api/suppliers/search/' + storeId;
+
+    const supplierSelect = $('#supplier');
+
+    $.ajax({
+        method: 'GET',
+        url: url,
+        success: function (data) {
+
+            var supplier;
+
+            supplierSelect.html("<option value=''>--- (" + data.length + ") fornecedores encontrados ---</option>");
+
+            for (var i = 0; i < data.length; i++) {
+
+                supplier = data[i];
+
+                supplierSelect.append(
+                    "<option value='" + supplier.id + "'>" + supplier.designation + "</option>"
+                );
+            }
+
+            if (isUpdate) supplierSelect.val($('#supplier_id').val());
+
+        }
+
+    });
+}
 
 
 function getCategoriesByStore() {
