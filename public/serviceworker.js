@@ -1,4 +1,5 @@
-var staticCacheName = "pwa-v17";
+var staticCacheName = `${self.location.hostname}-pwa-v17`;
+
 var filesToCache = [
     '/offline',
     '/sells',

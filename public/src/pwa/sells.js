@@ -1,5 +1,6 @@
 'use strict'
 
+
 const storeId = document.querySelector('#storeId').value;
 
 const userId = document.querySelector('#userId').value;
@@ -45,10 +46,10 @@ function getUserInfo() {
         .then(function (response) {
             return response.json();
         }).then(function (data) {
-            // writeData('users', data)
-            //     .catch(function (err) {
-            //         console.log();
-            //     })
+            if (data) {
+                removeAllData('users');
+                writeData('users', data);
+            }
         }).catch(function (err) {
             console.log(err, 'Error getting user info');
 
@@ -61,8 +62,11 @@ function getAllProductsByStore() {
             return response.json();
         })
         .then(function (data) {
-            for (let i = 0; i < data.length; i++) {
-                writeData('products', data[i]);
+            if (data.length > 0) {
+                removeAllData('products');
+                for (let i = 0; i < data.length; i++) {
+                    writeData('products', data[i]).catch(err => console.log());
+                }
             }
         }).catch(function (err) {
             console.log(err, 'Error getting all products by store');

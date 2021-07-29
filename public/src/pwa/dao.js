@@ -1,4 +1,6 @@
-var dbPromise = idb.open('sgv-store', 1, function (db) {
+const indexeddbName = `${window.location.origin}-sgv-store`;
+
+var dbPromise = idb.open(indexeddbName, 1, function (db) {
     if (!db.objectStoreNames.contains('users')) {
         db.createObjectStore('users', { keyPath: 'id' });
     }
@@ -24,7 +26,7 @@ function writeData(st, data) {
             var store = tx.objectStore(st);
             store.add(data);
             return tx.complete;
-        });
+        }).catch(err => { throw new Error() });
 }
 
 

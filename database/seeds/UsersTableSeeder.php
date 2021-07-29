@@ -13,13 +13,26 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(User::class,5)->create();
+        $user = new User();
+        $user->name = 'Manager';
+        $user->role = 'Manager';
+        $user->email = 'manager@manager.com';
+        $user->password = Hash::make('password');
+        $user->save();
 
         $user = new User();
         $user->name = 'Walter Sono';
         $user->role = 'Administrator';
         $user->email = 'root@root.com';
         $user->password = Hash::make('password');
+        $user->save();
+
+        $user = new User();
+        $user->name = 'Operator';
+        $user->role = 'Operator';
+        $user->email = 'operator@operator.com';
+        $user->password = Hash::make('password');
+        $user->store_id = 1;
         $user->save();
     }
 }
