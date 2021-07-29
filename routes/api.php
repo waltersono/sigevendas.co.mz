@@ -26,6 +26,8 @@ Route::get('suppliers/search/{storeId}', 'SupplierController@search');
 
 Route::get('sells/searchProduct/{productName}/{operatorId}', 'SellController@searchProduct');
 
+Route::get('sells/getAllProductsByStore/{storeId}', 'SellController@getAllProductsByStore');
+
 Route::get('receipts/search/{storeId}/{operatorId}/{day}/{month}/{year}', 'ReceiptController@search');
 
 Route::get('stats/search/{storeId}/{month}', 'StatController@search');
