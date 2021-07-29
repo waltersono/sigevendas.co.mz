@@ -121,6 +121,6 @@
 @include('partials.error')
 @endsection
 @section('scripts')
-<!-- <script src="{{ asset('src/js/sells/index.js') }}"></script> -->
-<script src="{{ asset('src/pwa/sells.js') }}"></script>
+<script src="{{ asset('src/js/sells/index.js') }}"></script>
+<!-- <script src="{{ asset('src/pwa/sells.js') }}"></script> -->
 @endsection
