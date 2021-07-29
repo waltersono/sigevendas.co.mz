@@ -1,4 +1,4 @@
-var staticCacheName = "pwa-v16";
+var staticCacheName = "pwa-v17";
 var filesToCache = [
     '/offline',
     '/sells',

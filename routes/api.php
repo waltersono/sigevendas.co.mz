@@ -20,6 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('products/search/{store}/{category}/{supplier}', 'ProductController@search');
 
+Route::get('users/getUserInfo/{userId}', 'UserController@getUserInfo');
+
 Route::get('categories/search/{storeId}', 'CategoryController@search');
 
 Route::get('suppliers/search/{storeId}', 'SupplierController@search');

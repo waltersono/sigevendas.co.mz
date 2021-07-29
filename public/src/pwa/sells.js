@@ -35,7 +35,6 @@ $('document').ready(function () {
 
     fillProductsArray();
 
-
 });
 
 
@@ -46,10 +45,10 @@ function getUserInfo() {
         .then(function (response) {
             return response.json();
         }).then(function (data) {
-            writeData('users', data)
-                .catch(function (err) {
-                    console.log();
-                })
+            // writeData('users', data)
+            //     .catch(function (err) {
+            //         console.log();
+            //     })
         }).catch(function (err) {
             console.log(err, 'Error getting user info');
 
@@ -63,10 +62,7 @@ function getAllProductsByStore() {
         })
         .then(function (data) {
             for (let i = 0; i < data.length; i++) {
-                writeData('products', data[i])
-                    .catch(function (err) {
-                        console.log();
-                    });
+                writeData('products', data[i]);
             }
         }).catch(function (err) {
             console.log(err, 'Error getting all products by store');
@@ -79,7 +75,7 @@ function fillProductsArray() {
     readAllData('products')
         .then(function (data) {
             productsArr = data;
-            console.log(productsArr);
+            //console.log(productsArr);
 
         }).catch(function (err) {
             console.log(err, 'Error reading database products');
