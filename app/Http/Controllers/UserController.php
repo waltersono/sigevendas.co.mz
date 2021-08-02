@@ -132,13 +132,14 @@ class UserController extends Controller
 
             $this->validate($request, [
                 'name'  =>  'required|min:3',
-                'email' =>  'required|unique:users',
+                'email' =>  'required|unique:users,email,' . $user->id,
             ]);
         } else {
 
             $this->validate($request, [
                 'name'  =>  'required|min:3',
-                'email' =>  'required|unique:users',
+                'email' =>  'required|unique:users,email,' . $user->id,
+
                 'store' =>  'required'
             ]);
         }
