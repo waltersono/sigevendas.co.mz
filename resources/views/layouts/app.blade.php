@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="{{ asset('src/vendor/bootstrap/css/bootstrap.css') }}">
   <link rel="stylesheet" href="{{ asset('src/vendor/dashboard/dashboard.css') }}">
   <link rel="stylesheet" href="{{ asset('src/css/custom.css') }}">
-  @laravelPWA
+  <!-- @laravelPWA -->
   @yield('styles')
 
 </head>
@@ -42,10 +42,10 @@
   <script src="{{ asset('src/vendor/bootstrap/js/bootstrap.js') }}"></script>
   <script src="{{ asset('src/js/scripts.js') }}"></script>
   @yield('scripts')
-  <script src="{{ asset('src/pwa/promise.js') }}"></script>
+  <!-- <script src="{{ asset('src/pwa/promise.js') }}"></script>
   <script src="{{ asset('src/pwa/fetch.js') }}"></script>
   <script src="{{ asset('src/pwa/idb.js') }}"></script>
-  <script src="{{ asset('src/pwa/dao.js') }}"></script>
+  <script src="{{ asset('src/pwa/dao.js') }}"></script> -->
 </body>
 
 </html>
