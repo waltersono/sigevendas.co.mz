@@ -35,5 +35,6 @@ Route::get('receipts/search/{storeId}/{operatorId}/{day}/{month}/{year}', 'Recei
 Route::get('stats/search/{storeId}/{month}', 'StatController@search');
 
 Route::get('entranceLogs/search/{storeId}/{day}/{month}/{year}', 'EntranceLogController@search');
+Route::get('exitLogs/search/{storeId}/{day}/{month}/{year}', 'ExitLogController@search');
 
 Route::get('dashboard/{storeId}', 'DashboardController@getData');

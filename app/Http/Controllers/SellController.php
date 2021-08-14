@@ -66,6 +66,8 @@ class SellController extends Controller
 
         //$this->export();
 
+        //dd($request);
+
         DB::transaction(function () use ($request) {
 
             $this->receiptId = $this->saveReceipt($request);
@@ -79,9 +81,10 @@ class SellController extends Controller
                     DB::table('items')->insert([
                         'product_name'  => $product->designation,
                         'supplier_name' => $product->supplier->designation,
-                        'product_price' => $product->price,
+                        'product_price' => $request->prices[$i],
                         'quantity'      => $request->quantities[$i],
-                        'sub_total'     => $product->price * $request->quantities[$i],
+                        'discount'      => $request->discounts[$i],
+                        'sub_total'     => $request->subTotals[$i],
                         'receipt_id'    => $this->receiptId,
                         'created_at'    => date('Y-m-d H:i:s')
                     ]);

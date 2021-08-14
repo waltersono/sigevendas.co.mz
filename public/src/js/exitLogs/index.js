@@ -16,7 +16,7 @@ function search() {
 
     const tableBody = $('#entranceLogsTable tbody');
 
-    const url = 'api/entranceLogs/search/' + storeId + '/' + day + '/' + month + '/' + year;
+    const url = 'api/exitLogs/search/' + storeId + '/' + day + '/' + month + '/' + year;
 
     $.ajax({
         url: url,
@@ -37,12 +37,12 @@ function search() {
 
                     tableBody.append("<tr>" +
                         "<td>" + (i + 1) + "</td>" +
-                        "<td>" + data[i].created_at + "</td>" +
-                        "<td>" + data[i].product_category + "</td>" +
                         "<td>" + data[i].product_name + "</td>" +
-                        "<td>" + data[i].old_quantity + "</td>" +
-                        "<td>" + data[i].add_quantity + "</td>" +
-                        "<td>" + data[i].new_quantity + "</td>" +
+                        "<td>" + data[i].supplier_name + "</td>" +
+                        "<td>" + data[i].product_price + "</td>" +
+                        "<td>" + data[i].quantity + "</td>" +
+                        "<td>" + data[i].discount + "</td>" +
+                        "<td>" + data[i].sub_total + "</td>" +
                         "</tr>");
 
                 }

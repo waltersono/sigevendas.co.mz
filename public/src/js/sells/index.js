@@ -59,13 +59,16 @@ function addToCart() {
 
     const quantity = $(this).parent().prev().children().val();
 
+    const discount = Number($(this).parent().prev().prev().children().val());
+
     const productQuantity = Number($(this).parent().prev().prev().prev().html());
 
     const price = $(this).attr('data-price');
 
-    const subTotal = quantity * price;
+    const subTotal = Math.floor((quantity * price) - (quantity * price * discount / 100));
 
     const tableBody = $('#cartTable tbody');
+
 
     if (quantity == '' || quantity == 0 || quantity > productQuantity) {
 
@@ -73,14 +76,27 @@ function addToCart() {
 
         $('#errorModalTitle').html('Quantidade invalida!');
 
+    } else if (discount < 0 || discount > 100) {
+        $('#errorModal').modal('show');
+
+        $('#errorModalTitle').html('Desconto invalida!');
+
     } else {
 
         tableBody.append("<tr>" +
+
             "<td><input type='text' disabled class='form-control form-control-plaintext form-control-sm' value='" + productName + "' />" +
+
             "<input type='hidden' name='productsId[]' class='form-control form-control-sm productIds' value='" + productId + "' /></td>" +
+
             "<td><input type='number' name='quantities[]' class='form-control form-control-plaintext form-control-sm quantities' value='" + quantity + "' /></td>" +
-            "<td><input type='number' disabled class='form-control form-control-plaintext form-control-sm' value='" + price + "' /></td>" +
-            "<td><input type='number' disabled class='subTotal form-control form-control-plaintext form-control-sm' value='" + subTotal.toFixed(2) + "' /></td>" +
+
+            "<td><input type='number' name='prices[]' class='form-control form-control-plaintext form-control-sm' value='" + price + "' /></td>" +
+
+            "<td><input type='number' name='discounts[]' class='form-control form-control-plaintext form-control-sm quantities' value='" + discount + "' /></td>" +
+
+            "<td><input type='number' name='subTotals[]' class='subTotal form-control form-control-plaintext form-control-sm' value='" + subTotal.toFixed(2) + "' /></td>" +
+
             "<td>" +
             "<button type='button' class='btn btn-danger btn-sm'>Remover</button> " +
             "</td>" +
@@ -107,7 +123,7 @@ function searchProduct() {
     const storeId = $('#storeId').val();
 
     const tableBody = $('#productsTable tbody');
-
+    67
     if (productName != '') {
 
         $('#spinner').css('display', 'block');
@@ -140,8 +156,10 @@ function searchProduct() {
                                 "<td>" + productName + "</td>" +
                                 "<td>" + data[i].quantity + "</td>" +
                                 "<td>" + numberWithCommas(data[i].price) + "</td>" +
+                                "<td><input type='number' min='0' max='100' class='form-control form-control-sm' value='0' /></td>" +
                                 "<td><input type='number' min='1' class='form-control form-control-sm' /></td>" +
                                 "<td>" +
+
                                 "<button type='button' data-id='" + data[i].id + "' data-product='" + productName + "' data-price='" + data[i].price + "' class='btn btn-success btn-sm'>Adicionar</button> " +
                                 "</td>" +
                                 "</tr>");
@@ -153,6 +171,7 @@ function searchProduct() {
                                 "<td>" + productName + "</td>" +
                                 "<td>" + data[i].quantity + "</td>" +
                                 "<td>" + numberWithCommas(data[i].price) + "</td>" +
+                                "<td><input type='number' min='1' class='form-control form-control-sm' /></td>" +
                                 "<td><input type='number' min='1' class='form-control form-control-sm' /></td>" +
                                 "<td>" +
                                 "<button disabled class='btn btn-dark btn-sm'>Adicionar</button> " +

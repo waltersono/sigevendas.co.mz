@@ -64,6 +64,7 @@
                                     <th>Produto</th>
                                     <th>Qtd</th>
                                     <th>Pre&ccedil;o <strong>(MT)</strong></th>
+                                    <th>Desconto (%)</th>
                                     <th>Qtd a adicionar</th>
                                     <th>Ac&ccedil;&atilde;o</th>
                                 </tr>
@@ -102,6 +103,7 @@
                                     <th>Produto</th>
                                     <th>Qtd</th>
                                     <th>Pre&ccedil;o <strong>(MT)</strong></th>
+                                    <th>Desconto (%)</th>
                                     <th>Sub Total <strong>(MT)</strong></th>
                                     <th>Ac&ccedil;&atilde;o</th>
                                 </tr>

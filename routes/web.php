@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
         Route::get('stats', 'StatController@index')->name('stats.index');
         Route::get('receipts', 'ReceiptController@index')->name('receipts.index');
         Route::get('entrances', 'EntranceLogController@index')->name('entrances.index');
+        Route::get('exits', 'ExitLogController@index')->name('exits.index');
         Route::post('products/add', 'ProductController@add')->name('products.add');
         Route::get('items/receipt/{receiptId}', 'ItemController@index')->name('items.index');
     });

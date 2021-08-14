@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\ExitLog;
 use Illuminate\Http\Request;
+use App\Helpers\Helper;
+use Illuminate\Support\Facades\DB;
+use App\Models\Store;
+use Illuminate\Support\Facades\Auth;
 
 class ExitLogController extends Controller
 {
@@ -14,72 +18,40 @@ class ExitLogController extends Controller
      */
     public function index()
     {
-        //
+        return view('exitLogs.index')->with([
+            'stores' => Store::where('user_id', Auth::user()->id)->get(),
+        ]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * 
+     * 
      */
-    public function create()
+    public function search($storeId, $day, $month, $year)
     {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $day = Helper::helperCheckNull($day);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\ExitLog  $exitLog
-     * @return \Illuminate\Http\Response
-     */
-    public function show(ExitLog $exitLog)
-    {
-        //
-    }
+        $month = Helper::helperCheckNull($month);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ExitLog  $exitLog
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ExitLog $exitLog)
-    {
-        //
-    }
+        $year = Helper::helperCheckNull($year);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ExitLog  $exitLog
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, ExitLog $exitLog)
-    {
-        //
-    }
+        $day = Helper::handleOneDigitNumbers($day);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\ExitLog  $exitLog
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(ExitLog $exitLog)
-    {
-        //
+
+        $logs = array();
+
+        if ($storeId !== '*') {
+
+            $logs = DB::table('items')
+                ->leftJoin('receipts', 'receipts.id', '=', 'items.receipt_id')
+                ->where('receipts.store_id', '=', $storeId)
+                ->where('receipts.day', Helper::decideIfLike($day), Helper::decideIfPercent($day))
+                ->where('receipts.month', Helper::decideIfLike($month), Helper::decideIfPercent($month))
+                ->where('receipts.year', Helper::decideIfLike($year), Helper::decideIfPercent($year))
+                ->get();
+        }
+
+        return response()->json($logs);
     }
 }
